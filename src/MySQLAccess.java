@@ -9,16 +9,40 @@ import java.util.Date;
 
 public class MySQLAccess {
 
-
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
+
+
     public void readDataBase() throws Exception {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println("Driver Found");
+
+        try {
+            connect = DriverManager.
+                    getConnection("jdbc:mysqld://ec2-34-203-194-93.compute-1.amazonaws.com:3306/DaBL", "root", "Variation on Clawed");
+        } catch (SQLException e) {
+            System.out.println("Connection Failed!:\n" + e.getMessage());
+        }
+
+
+
+        /*
         try {
             // This will load the MySQL driver, each DB has its own driver
-            Class.forName("com.mysql.jdbc.Driver");
+
+            System.out.println("readDataBase: start");
+
             // Setup the connection with the DB
             connect = DriverManager.getConnection("jdbc:http://34.203.194.93/phpmyadmin/" + "user=root&password=Variation On Clawed");
 
@@ -34,7 +58,7 @@ public class MySQLAccess {
             preparedStatement.setString(1, "Test");
             preparedStatement.setString(2, "TestEmail");
             preparedStatement.setString(3, "TestWebpage");
-            preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
+            //preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
             preparedStatement.setString(5, "TestSummary");
             preparedStatement.setString(6, "TestComment");
             preparedStatement.executeUpdate();
@@ -52,11 +76,13 @@ public class MySQLAccess {
             writeMetaData(resultSet);
 
         } catch (Exception e) {
+            System.out.println("Thrown!");
             throw e;
         } finally {
             close();
         }
 
+        */
     }
 
     private void writeMetaData(ResultSet resultSet) throws SQLException {
